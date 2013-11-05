@@ -1,0 +1,70 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Course creating</h1>
+
+<div class="col-lg-10 col-lg-offset-1 well">
+  <form id="createCourseForm" class="form-horizontal" method="POST" action="/">
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="title">Title</label>
+        <div class="col-lg-10">
+            <input class="form-control" type="text" id="title" name="title"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="field">Field</label>
+        <div class="col-lg-10">
+            <input class="form-control" type="text" id="field" name="field"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="description">Description</label>
+        <div class="col-lg-10">
+            <textarea class="form-control" id="description" name="description" cols="80" rows="5"></textarea>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="startDate">Start date</label>
+            <div class="col-lg-10">
+                <input  class="form-control" 
+                        type="datetime-local" 
+                        id="startDate" 
+                        name="startDate"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="finishDate">Finish date</label>
+        <div class="col-lg-10">
+            <input  class="form-control" 
+                    type="datetime-local" 
+                    id="finishDate" 
+                    name="finishDate"></input>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-2 control-label" for="keyWords">Keywords</label>
+        <div class="col-lg-10">
+            <input  class="form-control"
+                    type="text" 
+                    id="keyWords" 
+                    name="keyWords"></input>
+        </div>
+    </div>
+
+    <div class="pull-right">
+        <a class="btn btn-default" href="/courses">
+            <span class="glyphicon glyphicon-chevron-left"/> Back
+        </a>
+        <input class="btn btn-primary" type="submit" value="Create"/>
+    </div>
+  </form>
+</div>
+
+<% include ../footer %>

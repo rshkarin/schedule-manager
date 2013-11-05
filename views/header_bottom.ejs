@@ -1,0 +1,103 @@
+	</head>
+	<body>
+		<div class="container">
+			<div class="navbar navbar-default">
+	            <div class="navbar-header">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	                    <span class="icon-bar"/>
+	                    <span class="icon-bar"/>
+	                    <span class="icon-bar"/>
+	                </button>
+	                <a class="navbar-brand" href="/courses">
+	                    <span class="glyphicon glyphicon-calendar"></span>
+	                    Schedule Manager
+	                </a>
+	            </div>
+	            <div class="navbar-collapse collapse" style="margin-top:4px;">
+					<% if (!user) { %>
+						<ul class="nav navbar-nav">
+		                    <li>
+		                        <a href="/">Courses</a>
+		                    </li>
+		                </ul>
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li>
+		                        <a href="/login">Log-In</a>
+		                    </li>
+		                </ul>
+					<% } else if (user.userGroup == 'Student') { %>
+						<ul class="nav navbar-nav">
+		                    <li>
+		                        <a href="/">Courses</a>
+		                    </li>
+		                    <li>
+		                        <a href="/account">Account</a>
+		                    </li>
+		                </ul>
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li>
+		                        <a href="/account">
+		                            <span class="glyphicon glyphicon-user"></span> <%= user.firstName %> <%= user.lastName %>
+		                        </a>
+		                    </li>
+		                    <li class="nav-divider"/>
+		                    <li>
+		                        <a href="/logout">Logout</a>
+		                    </li>
+		                </ul>
+					<% } else if (user.userGroup == 'Professor') { %>
+						<ul class="nav navbar-nav">
+		                    <li>
+		                        <a href="/">Courses</a>
+		                    </li>
+		                    <li>
+		                        <a href="/students">Students</a>
+		                    </li>
+		                    <li>
+		                        <a href="/account">Account</a>
+		                    </li>
+		                </ul>
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li>
+		                        <a href="/account">
+		                            <span class="glyphicon glyphicon-user"></span> <%= user.firstName %> <%= user.lastName %>
+		                        </a>
+		                    </li>
+		                    <li class="nav-divider"/>
+		                    <li>
+		                        <a href="/logout">Logout</a>
+		                    </li>
+		                </ul>
+					<% } else if (user.userGroup == 'Administrator') { %>
+						<ul class="nav navbar-nav">
+		                    <li>
+		                        <a href="/">Courses</a>
+		                    </li>
+		                    <li>
+		                        <a href="/students">Students</a>
+		                    </li>
+		                    <li>
+		                        <a href="/professors">Professors</a>
+		                    </li>
+		                    <li>
+		                        <a href="/administrators">Administrators</a>
+		                    </li>
+		                    <li>
+		                        <a href="/account">Account</a>
+		                    </li>
+		                </ul>
+		                <ul class="nav navbar-nav navbar-right">
+		                    <li>
+		                        <a href="/account">
+		                            <span class="glyphicon glyphicon-user"></span> <%= user.firstName %> <%= user.lastName %>
+		                        </a>
+		                    </li>
+		                    <li class="nav-divider"/>
+		                    <li>
+		                        <a href="/logout">Logout</a>
+		                    </li>
+		                </ul>
+					<% } %>
+		    	</div>
+		    </div>
+	    	

@@ -1,0 +1,39 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<a href="/professors">Back</a>
+
+<h1>Professor creating</h1>
+<form method="POST" action="/professors">
+  <p><b>First name:</b><br>
+  <input size="50"  type="text" name="firstName" size="12" value="<%= professor ? professor.firstName : '' %>" />
+  </p>
+  <p><b>Last name:</b><br>
+  <input size="50" type="text" name="lastName" size="12" value="<%= professor ? professor.lastName : '' %>" />
+  </p>
+  <p><b>Birthday:</b><br>
+  <input type="date" name="birthDay" value="<%= professor ? renderDateWithFormat(professor.birthDay,'YYYY-MM-DD') : '1970-01-01' %>" />
+  </p>
+  <p><b>Degree:</b><br>
+  <input size="50" type="text" name="degree" size="12" value="<%= professor ? professor.degree : '' %>" />
+  </p>
+  <p><b>Login:</b><br>
+  <input size="50" type="text" name="login" size="12" value="<%= professor ? professor.login : '' %>" />
+  </p>
+  <p><b>Password:</b><br>
+  <input size="50" type="password" name="password" size="12" value="<%= professor ? professor.password : '' %>" />
+  </p>
+  <input type="submit" value="Save" />
+</form>
+
+<% if(errors) { %>
+<ul>
+  <% errors.forEach(function(error){ %>
+    <li style='color: red;'><span style='color:black;'><%= error.msg %></span></li>
+  <% }); %>
+</ul>
+<% } %>
+
+<% include ../footer %>

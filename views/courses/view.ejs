@@ -1,0 +1,78 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<p>
+	<a class="btn btn-primary" href="/">
+    	<span class="glyphicon glyphicon-chevron-left"></span> Back to the courses
+    </a>
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body plane-pad">
+    	<h2>
+    		<span class="<%= getColoredLabelClassByStatus(course.status) %>">
+                <%= course.status %>
+            </span>
+    	</h2>
+        <h1>
+            <%= course.title %>
+        </h1>
+        <h3 class="course-field-margin">
+            <%= course.field %>
+        </h3>
+
+        <h4>Description:</h4>
+        <%= course.description %>
+
+        <h4>Professor:</h4>
+        <%= professor.firstName %> <%= professor.lastName %>
+        <% if (professor.degree) { %>
+        	, <%= professor.degree %>
+        <% } %>
+
+        <h4>Dates:</h4>
+        <%= renderDateWithFormat(course.startDate, "MMM Do YYYY, h:mm") %> - 
+        <%= renderDateWithFormat(course.finishDate, "MMM Do YYYY, h:mm")%>
+
+        <h4>Key words:</h4>
+        <% course.keyWords.forEach(function(keyword){ %>
+			<span>[<%= keyword %>] </span>
+		<% }); %>
+	</div>
+</div>
+
+<% if(students.length) { %>
+	<h2>Subscribed students</h2>
+	<table class="table table-hover">
+	    <thead>
+	        <tr>
+	            <th>First Name</th>
+	            <th>Last Name</th>
+	            <th>Group number</th>
+	            <th>University</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <% students.forEach(function(student) { %>
+				<tr>
+					<td>
+						<%= student.firstName %>
+					</td>
+					<td>
+						<%= student.lastName %>
+					</td>
+					<td>
+						<%= student.groupNumber %>
+					</td>
+					<td>
+						<%= student.universityName %>
+					</td>
+				</tr>
+			<% }); %>
+	    </tbody>
+	</table>
+<% } %>
+
+<% include ../footer %>

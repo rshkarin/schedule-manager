@@ -1,0 +1,107 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Editing</h1>
+<div class="col-md-offset-2 col-lg-8 well">
+    <form class="form-horizontal" id="editForm" method="POST" action="/student/<%= student._id %>">
+      	<input type="hidden" name="_id" value="<%= student._id %>" />
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="firstName">First name</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" id="firstName" name="firstName" value="<%= student.firstName %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="lastName">Last name</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" id="lastName" name="lastName" value="<%= student.lastName %>"></input>
+            </div>
+        </div>
+            
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="birthDay">Birthday</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                       type="date" 
+                       id="birthDay" 
+                       name="birthDay" 
+                       value="<%= renderDateWithFormat(student.birthDay, 'YYYY-MM-DD') %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="universityName">Name of university</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                       type="text" 
+                       id="universityName" 
+                       name="universityName" 
+                       value="<%= student.universityName %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="groupNumber">Group number</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" id="groupNumber" name="groupNumber" value="<%= student.groupNumber %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="personalId">Personal ID</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="text" id="personalId" name="personalId" value="<%= student.personalId %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="email">Email</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="email" id="email" name="login" readonly="readonly" value="<%= student.login %>"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="old_password">Old password</label>
+
+            <div class="col-lg-9">
+                <input class="form-control" type="password" id="old_password" name="old_password"></input>
+            </div>
+        </div>
+            
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="password">New password</label>
+
+            <div class="col-lg-9">
+                <input class="form-control" type="password" id="password" name="password"></input>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-lg-3 control-label" for="confirm_password">Confirm password</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="password" id="confirm_password"></input>
+            </div>
+        </div>
+
+      	<div class="pull-right">
+            <a class="btn btn-default" href="/students">
+                <span class="glyphicon glyphicon-chevron-left"></span> Back
+            </a>
+            <input class="btn btn-primary" type="submit" value="Save"/>
+        </div>
+    </form>
+
+    <% if(errors) { %>
+        <div class="list-group edit-user-errors">
+        <% errors.forEach(function(error){ %>
+            <div class="alert alert-danger"><%= error.msg %></div>
+        <% }); %>
+        </div>
+    <% } %>
+</div>
+
+<% include ../footer %>

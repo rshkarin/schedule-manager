@@ -1,0 +1,21 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<a href="/professors">Back</a>
+
+<table border="0" width="600" cellspacing="2" cellpadding="0">
+	<tr>
+		<% if(('degree' in professor) && (professor['degree'] != '')) { %>
+			<td><font size="5" face="Arial">Name:</font></td><td><font size="5" face="Arial"><%= professor.degree %>, <%= professor.firstName %> <%= professor.lastName %></font></td>	
+		<% } else { %>
+			<td><font size="5" face="Arial">Name:</font></td><td><font size="5" face="Arial"><%= professor.firstName %> <%= professor.lastName %></font></td>	
+		<% } %>
+	</tr>
+	<tr>
+		<td><font size="5" face="Arial">Birthday:</font></td><td><font size="5" face="Arial"><%= professor.birthDay %></font></td>
+	</tr>
+</table>
+
+<% include ../footer %>

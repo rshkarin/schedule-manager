@@ -1,0 +1,46 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<p>
+	<a class="btn btn-primary" 
+       href="<%= (viewedUser.userGroup == 'Student') ? "/students" :
+                    (viewedUser.userGroup == 'Professor') ? "/professors" :
+                        (viewedUser.userGroup == 'Administrator') ? "/administrators" : "" %>">
+		<span class="glyphicon glyphicon-chevron-left"></span> Back to the list
+	</a>
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body plane-pad">
+        <h2>
+        	<%= viewedUser.firstName %> <%= viewedUser.lastName %>
+        	<% if (('degree' in viewedUser) && viewedUser.degree != '' && viewedUser.degree != undefined) { %>
+        		, <%= viewedUser.degree %>
+        	<% } %>
+        </h2>
+
+        <h4>Birthday:</h4>
+        <%= renderDateWithFormat(viewedUser.birthDay, "MMM Do YYYY") %>
+        
+        <% if (viewedUser.userGroup == 'Student') { %>
+            <% if (viewedUser.universityName != '') { %>
+             	<h4>Name of university:</h4>
+             	<%= viewedUser.universityName %>
+            <% } %>
+
+            <% if (viewedUser.groupNumber != '') { %>
+             	<h4>Group number:</h4>
+             	<%= viewedUser.groupNumber %>
+            <% } %>
+
+            <% if (viewedUser.personalId != '') { %>
+             	<h4>Personal ID:</h4>
+             	<%= viewedUser.personalId %>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% include ../footer %>

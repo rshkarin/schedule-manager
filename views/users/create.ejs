@@ -1,0 +1,157 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1 class="col-md-offset-2">
+    <% if (userGroup == 'Student') { %>
+        Student creating
+    <% } else if (userGroup == 'Professor') { %>
+        Professor creating
+    <% } else if (userGroup == 'Administrator') { %>
+        Administrator creating
+    <% } %>
+</h1>
+
+<div class="col-md-offset-2 col-lg-8 well">
+    <% if (userGroup == 'Student') { %>
+        <form id="createForm" method="POST" action="/students" class="form-horizontal" novalidate="novalidate">
+    <% } else if (userGroup == 'Professor') { %>
+        <form id="createForm" method="POST" action="/professors" class="form-horizontal" novalidate="novalidate">
+    <% } else if (userGroup == 'Administrator') { %>
+        <form id="createForm" method="POST" action="/professors" class="form-horizontal" novalidate="novalidate">
+    <% } %>
+    
+        <div class="form-group">
+            <label for="firstName" class="col-lg-3 control-label">First name</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                        type="text" 
+                        id="firstName" 
+                        name="firstName" 
+                        placeholder="First name"
+                        value="<%= (createdUser) ? createdUser.firstName : '' %>"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="lastName" class="col-lg-3 control-label">Last name</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                        type="text" 
+                        id="lastName" 
+                        name="lastName" 
+                        placeholder="Last name"
+                        value="<%= (createdUser) ? createdUser.lastName : '' %>"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="birthDay" class="col-lg-3 control-label">Birthday</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                       type="date" 
+                       id="birthDay" 
+                       name="birthDay"
+                       value="<%= (createdUser) ? renderDateWithFormat(createdUser.birthDay, 'YYYY-MM-DD') : '1990-01-01' %>"></input>
+            </div>
+        </div>
+
+        <% if (userGroup == 'Student') { %>
+            <div class="form-group">
+                <label for="universityName" class="col-lg-3 control-label">Name of university</label>
+                <div class="col-lg-9">
+                    <input class="form-control" 
+                            type="text" 
+                            id="universityName" 
+                            name="universityName" 
+                            placeholder="Name of university"
+                            value="<%= (createdUser) ? createdUser.universityName : '' %>"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="groupNumber" class="col-lg-3 control-label">Group number</label>
+                <div class="col-lg-9">
+                    <input class="form-control" 
+                            type="text" 
+                            id="groupNumber" 
+                            name="groupNumber" 
+                            placeholder="Group number"
+                            value="<%= (createdUser) ? createdUser.groupNumber : '' %>"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="personalId" class="col-lg-3 control-label">Personal ID</label>
+                <div class="col-lg-9">
+                    <input class="form-control" 
+                            type="text" 
+                            id="personalId" 
+                            name="personalId" 
+                            placeholder="Personal ID"
+                            value="<%= (createdUser) ? createdUser.personalId : '' %>"></input>
+                </div>
+            </div>
+        <% } else if (userGroup == 'Professor') { %>
+            <div class="form-group">
+                <label for="degree" class="col-lg-3 control-label">Degree</label>
+                <div class="col-lg-9">
+                    <input class="form-control" 
+                            type="text" 
+                            id="degree" 
+                            name="degree" 
+                            placeholder="Degree"
+                            value="<%= (createdUser) ? createdUser.degree : '' %>"></input>
+                </div>
+            </div>
+        <% } %>
+
+        <div class="form-group">
+            <label for="email" class="col-lg-3 control-label">Email</label>
+            <div class="col-lg-9">
+                <input class="form-control" 
+                type="email" 
+                id="email" 
+                name="login" 
+                placeholder="Email"
+                value="<%= (createdUser) ? createdUser.login : '' %>"></input>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-lg-3 control-label">Password</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="password" id="password" name="password" placeholder="Password"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="confirm_password" class="col-lg-3 control-label">Confirm password</label>
+            <div class="col-lg-9">
+                <input class="form-control" type="password" id="confirm_password" placeholder="Password confirmation"/>
+            </div>
+        </div>
+        
+        <div class="pull-right">
+            <% if (userGroup == 'Student') { %>
+                <a class="btn btn-default" href="/students">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </a>
+            <% } else if (userGroup == 'Professor') { %>
+                <a class="btn btn-default" href="/professors">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </a>
+            <% } else if (userGroup == 'Administrator') { %>
+                <a class="btn btn-default" href="/administrators">
+                    <span class="glyphicon glyphicon-chevron-left"></span> Back
+                </a>
+            <% } %>
+            
+            <input type="submit" class="btn btn-primary" value="Create"/>
+        </div>
+  </form>
+    <% if(errors) { %>
+    <div class="list-group create-user-errors">
+      <% errors.forEach(function(error){ %>
+        <div class="alert alert-danger"><%= error.msg %></div>
+      <% }); %>
+    </div>
+  <% } %>
+</div>
+
+<% include ../footer %>

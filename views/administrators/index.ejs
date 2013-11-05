@@ -1,0 +1,15 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Administrators</h1>
+	<table border="0">
+	<% administrators.forEach(function(administrator){ %>
+		<tr>
+			<td><a href="/administrator/<%= administrator._id %>"><%= administrator.firstName %> <%= administrator.lastName %></a></td>
+		</tr>
+	<% }); %>
+	</table>
+
+<% include ../footer %>

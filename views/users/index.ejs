@@ -1,0 +1,53 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1><%= title %></h1>
+
+<% if (user && user.userGroup == 'Administrator' && userGroup == 'Professor') { %>
+	<p>
+		<a class="btn btn-primary" href="/professors/create">Add professor</a>
+	</p>
+<% } %>
+
+<ul class="list-group">
+	<% users.forEach(function(current_user){ %>
+		<li class="list-group-item">
+            <div class="user-cell">
+            	<div class="user-name">
+            		<% if (current_user.userGroup == 'Student') { %>
+            			<a href="/student/<%= current_user._id %>"><%= current_user.firstName %> <%= current_user.lastName %></a>
+            		<% } else if (current_user.userGroup == 'Professor') { %>
+            			<a href="/professor/<%= current_user._id %>">
+            				<%= current_user.firstName %> <%= current_user.lastName %><% if (current_user.degree != '') { %>, <%= current_user.degree %><% } %>
+            			</a>
+            		<% } else if (current_user.userGroup == 'Administrator') { %>
+            			<a href="/administrator/<%= current_user._id %>">
+            				<%= current_user.firstName %> <%= current_user.lastName %>
+            			</a>
+            		<% } %>
+            	</div>
+	            <div class="user-btns pull-right">
+	            	<% if (user && user.userGroup == 'Administrator') { %>
+	            		<% if (current_user.userGroup == 'Student') { %>
+            				<a class="btn btn-xs btn-default" href="/student/<%= current_user._id %>/edit">
+								<span class="glyphicon glyphicon-cog"></span> Edit
+				        	</a>
+	            		<% } else if (current_user.userGroup == 'Professor') { %>
+		            		<a class="btn btn-xs btn-default" href="/professor/<%= current_user._id %>/edit">
+								<span class="glyphicon glyphicon-cog"></span> Edit
+				        	</a>
+				        	<a class="btn btn-xs btn-danger" href="/professor/<%= current_user._id %>/delete">
+								<span class="glyphicon glyphicon-trash"></span> Delete
+				        	</a>
+	            		<% } else if (current_user.userGroup == 'Administrator') { %>
+	            		<% } %>
+	            	<% } %>
+	            </div>
+            </div>
+        </li>
+	<% }); %>
+</ul>
+
+<% include ../footer %>

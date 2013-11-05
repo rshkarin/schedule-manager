@@ -1,0 +1,27 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Students</h1>
+
+<ul class="list-group">
+	<% students.forEach(function(student){ %>
+		<li class="list-group-item">
+            <div class="user-cell">
+            	<div class="user-name">
+            		<a href="/student/<%= student._id %>"><%= student.firstName %> <%= student.lastName %></a>
+            	</div>
+	            <div class="user-btns pull-right">
+	            	<% if (user && user.userGroup == 'Administrator') { %>
+	            		<a class="btn btn-xs btn-default" href="/student/<%= student._id %>/edit">
+							<span class="glyphicon glyphicon-cog"></span> Edit
+				        </a>
+	            	<% } %>
+	            </div>
+            </div>
+        </li>
+	<% }); %>
+</ul>
+
+<% include ../footer %>

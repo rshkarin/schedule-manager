@@ -1,0 +1,36 @@
+{
+  "subdomain": "schedule-manager",
+  "scripts": {
+    "predeploy": "echo This will be run before deploying the app",
+    "postdeploy": "echo This will be run after deploying the app",
+    "start": "server.js",
+    "test": "make test"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "version": "0.0.1-22",
+  "private": "true",
+  "dependencies": {
+    "express": "*",
+    "request": "*",
+    "ejs": "*",
+    "mongoose": "*",
+    "nib": "*",
+    "cradle": "*",
+    "passport": "*",
+    "passport-local": "*",
+    "connect": "*",
+    "connect-flash": "*",
+    "moment": "*",
+    "underscore": "*",
+    "express-validator": "*",
+    "credential": "*",
+    "connect-mongo": "*",
+    "mongoose-unique-validator": "*",
+    "mocha": "*",
+    "superagent": "*",
+    "should": "*"
+  },
+  "name": "ScheduleManager"
+}

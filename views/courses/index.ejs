@@ -1,0 +1,145 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+	<h1>Courses</h1>
+	<% if (user && user.userGroup == 'Professor') { %>
+		<h2>
+			<a class="btn btn-primary" href="/create">
+				<span class="glyphicon glyphicon-plus"></span> Add course
+			</a>
+		</h2>
+
+		<h3>My courses:</h3>
+	<% } else if (user && user.userGroup == 'Administrator') { %>
+		<h3>Not treated courses:</h3>
+
+		<% courses.forEach(function(course){ %>
+			<% if (course.status == "None") { %>
+				<li class="list-group-item">
+		            <h3 class="course-status">
+		                <span id="statusLabel" class="<%= getColoredLabelClassByStatus(course.status) %>">
+		                	<%= course.status %>
+		                </span>
+		            </h3>
+		            <h3 class="list-group-item-caption">
+		                <a href="/course/<%= course._id %>"><%= course.title %></a>
+		            </h3>         
+		            <h4>
+		            	<%= course.field %>
+		            </h4>
+		            <p>
+		            	<%= course.description %>
+		            </p>
+
+					<% if (user && user.userGroup == 'Student') { %>
+						<% if (course.students == undefined || !arrayContains(course.students, user.id)) { %>
+							<p>
+								<a class="btn btn-primary" href="/course/<%= course._id %>/subscribe">
+									<span class="glyphicon glyphicon-ok"></span> Subscribe
+								</a>
+							</p>
+						<% } else { %>
+							<p>
+								<a class="btn btn-danger" href="/course/<%= course._id %>/unsubscribe">
+									<span class="glyphicon glyphicon-remove"></span> Unsubscribe
+								</a>
+							</p>
+						<% } %>
+					<% } else if (user && user.userGroup == 'Professor') { %>
+						<p>
+							<a class="btn btn-default" href="/course/<%= course._id %>/edit">
+								<span class="glyphicon glyphicon-cog"></span> Edit
+							</a>
+							<a class="btn btn-danger" href="/course/<%= course._id %>/delete">
+								<span class="glyphicon glyphicon-trash"></span> Delete
+							</a>
+						</p>
+					<% } %>
+
+					<% if (user && user.userGroup == 'Administrator') { %>
+						<form class="form-inline" method="POST" action="/update">
+							<input type="hidden" name="_id" value="<%= course._id %>"></input>
+							<select class="form-control" id="selector" name="status">
+								<% status_list.forEach(function(status){ %>
+									<option value="<%= status %>" <%= (course.status == status) ? "selected=selected":"" %>>
+										<%= status %>
+									</option>
+								<% }); %>
+							</select>
+
+							<input class="btn btn-primary" type="submit" value="Save"></input>
+						</form>
+					<% } %>
+				</li>
+			<% } %>
+	<% }); %>
+
+		<h3>Treated courses:</h3>
+	<% } %>
+	
+	<% courses.forEach(function(course){ %>
+		<% if (((user && user.userGroup == 'Administrator') && course.status != "None") ||
+			   (user && user.userGroup == 'Professor') ||
+			   ((user && user.userGroup == 'Student') && course.status != "None") ||
+			   (!user && course.status != "None")) { %>
+			<li class="list-group-item">
+	            <h3 class="course-status">
+	                <span id="statusLabel" class="<%= getColoredLabelClassByStatus(course.status) %>">
+	                	<%= course.status %>
+	                </span>
+	            </h3>
+	            <h3 class="list-group-item-caption">
+	                <a href="/course/<%= course._id %>"><%= course.title %></a>
+	            </h3>         
+	            <h4>
+	            	<%= course.field %>
+	            </h4>
+	            <p>
+	            	<%= course.description %>
+	            </p>
+
+				<% if (user && user.userGroup == 'Student') { %>
+					<% if (course.students == undefined || !arrayContains(course.students, user.id)) { %>
+						<p>
+							<a class="btn btn-primary" href="/course/<%= course._id %>/subscribe">
+								<span class="glyphicon glyphicon-ok"></span> Subscribe
+							</a>
+						</p>
+					<% } else { %>
+						<p>
+							<a class="btn btn-danger" href="/course/<%= course._id %>/unsubscribe">
+								<span class="glyphicon glyphicon-remove"></span> Unsubscribe
+							</a>
+						</p>
+					<% } %>
+				<% } else if (user && user.userGroup == 'Professor') { %>
+					<p>
+						<a class="btn btn-default" href="/course/<%= course._id %>/edit">
+							<span class="glyphicon glyphicon-cog"></span> Edit
+						</a>
+						<a class="btn btn-danger" href="/course/<%= course._id %>/delete">
+							<span class="glyphicon glyphicon-trash"></span> Delete
+						</a>
+					</p>
+				<% } %>
+
+				<% if (user && user.userGroup == 'Administrator') { %>
+					<form class="form-inline" method="POST" action="/update">
+						<input type="hidden" name="_id" value="<%= course._id %>"></input>
+						<select class="form-control" id="selector" name="status">
+							<% status_list.forEach(function(status){ %>
+								<option value="<%= status %>" <%= (course.status == status) ? "selected=selected":"" %>>
+									<%= status %>
+								</option>
+							<% }); %>
+						</select>
+
+						<input class="btn btn-primary" type="submit" value="Save"></input>
+					</form>
+				<% } %>
+			</li>
+		<% } %>
+	<% }); %>
+
+<% include ../footer %>

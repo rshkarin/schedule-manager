@@ -1,0 +1,21 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Professors [<a href="/professors/create">Add professor</a>]</h1>
+	<table border="0">
+	<% professors.forEach(function(professor){ %>
+		<tr>
+			<% if(('degree' in professor) && (professor['degree'] != '')) { %>
+				<td><a href="/professor/<%= professor._id %>"><%= professor.degree %>, <%= professor.firstName %> <%= professor.lastName %></a></td>	
+			<% } else { %>
+				<td><a href="/professor/<%= professor._id %>"><%= professor.firstName %> <%= professor.lastName %></a></td>
+			<% } %>
+			<td>[<a href="/professor/<%= professor._id %>/edit">Edit</a>]</td>
+			<td>[<a href="/professor/<%= professor._id %>/delete">Delete</a>]</td>
+		</tr>
+	<% }); %>
+	</table>
+
+<% include ../footer %>

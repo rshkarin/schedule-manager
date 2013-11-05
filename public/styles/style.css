@@ -1,0 +1,84 @@
+body {
+padding: 30px;
+}
+
+.navbar {
+margin-bottom: 30px;
+}
+
+.centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.list-group-item {
+    padding-top:0px;
+    padding-bottom: 5px;
+}
+
+.list-group-item-caption {
+    margin-top: 10px;
+}
+
+.list-group-item-subcaption {
+   margin-top: -5px; 
+}
+
+#selector {
+    width: 110px;
+}
+
+.center-x{ 
+    text-align:center;
+}
+
+.center-y{
+    vertical-align:middle;
+}
+
+.user-cell {
+    line-height: 30px;
+    height: 30px;
+}
+
+.user-name {
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.user-bnts {
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.user-delete-account {
+    margin-top: 32px;
+}
+
+.plane-pad {
+    padding-top: 0px;
+    margin-top: -8px;
+}
+
+.course-field-margin {
+    margin-top: -5px;
+}
+
+.reg-errors {
+    margin-top: 60px;
+}
+
+.login-errors {
+    margin-top: 10px;
+    margin-bottom: -8px;
+}
+
+.edit-user-errors {
+    margin-top: 60px;
+    margin-bottom: -26px;
+}
+
+.create-user-errors {
+    margin-top: 60px;
+    margin-bottom: -28px;
+}

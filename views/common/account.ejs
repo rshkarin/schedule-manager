@@ -1,0 +1,44 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<h1>Account</h1>
+<p>
+	<a class="btn btn-primary" href="/courses">
+		<span class="glyphicon glyphicon-chevron-left"></span> Back to the main
+	</a>
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body plane-pad">
+        <h2>
+        	<%= user.firstName %> <%= user.lastName %>
+        	<% if (user.userGroup == 'Professor' && user.degree != '') { %>
+        		, <%= user.degree %>
+        	<% } %>
+        </h2>
+
+        <h4>Birthday:</h4>
+        <%= renderDateWithFormat(user.birthDay, "MMM Do YYYY") %>
+        
+        <% if (user.userGroup == 'Student') { %>
+            <% if (user.universityName != '') { %>
+             	<h4>Name of university:</h4>
+             	<%= user.universityName %>
+            <% } %>
+
+            <% if (user.groupNumber != '') { %>
+             	<h4>Group number:</h4>
+             	<%= user.groupNumber %>
+            <% } %>
+
+            <% if (user.personalId != '') { %>
+             	<h4>Personal ID:</h4>
+             	<%= user.personalId %>
+            <% } %>
+        <% } %>
+    </div>
+</div>
+
+<% include ../footer %>

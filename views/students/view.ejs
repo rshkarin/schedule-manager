@@ -1,0 +1,35 @@
+<% include ../header_top %>
+<%- renderScriptsTags(script_files) %>
+<%- renderStylesTags(style_files) %>
+<% include ../header_bottom %>
+
+<p>
+	<a class="btn btn-primary" href="/students">
+		<span class="glyphicon glyphicon-chevron-left"></span> Back to the list
+	</a>
+</p>
+
+<div class="panel panel-default">
+    <div class="panel-body plane-pad">
+        <h2>
+        	<%= student.firstName %> <%= student.lastName %>
+        	<% if (('degree' in student) && student.degree != '') { %>
+        		, <%= student.degree %>
+        	<% } %>
+        </h2>
+
+        <h4>Birthday:</h4>
+        <%= renderDateWithFormat(student.birthDay, "MMM Do YYYY") %>
+     
+     	<h4>Name of university:</h4>
+     	<%= student.universityName %>
+
+     	<h4>Group number:</h4>
+     	<%= student.groupNumber %>
+
+     	<h4>Personal ID:</h4>
+     	<%= student.personalId %>
+    </div>
+</div>
+
+<% include ../footer %>
