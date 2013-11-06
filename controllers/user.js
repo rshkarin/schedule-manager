@@ -21,7 +21,7 @@ function addTestUsers(users) {
     });
   }
 
-  console.log("Test users has been added.");
+  //console.log("Test users has been added.");
 }
 
 function printError(err) {
@@ -186,7 +186,7 @@ exports.saveUserByUserGroup = function(req, res, userGroup){
 
             req.body.password = hash;
 
-            console.log(req.body);
+            //console.log(req.body);
 
             User.createUser(req.body, function(err, user) {
                 if (err) {
@@ -199,11 +199,11 @@ exports.saveUserByUserGroup = function(req, res, userGroup){
                     req.session['created_user'] = req.body;
 
                     if (userGroup == "Student") {
-                        console.log("Err1!");
+                        //console.log("Err1!");
                         res.redirect('/students/register');
                     }
                     else {
-                        console.log("Err2!");
+                        //console.log("Err2!");
                         res.redirect('/' + userGroup.toLowerCase() + 's' + '/create');
                     }
 
@@ -212,7 +212,7 @@ exports.saveUserByUserGroup = function(req, res, userGroup){
                     delete req.session['created_user_errors'];
                     delete req.session['created_user'];
 
-                    console.log("Created!");
+                    //console.log("Created!");
 
                     if (userGroup == "Student") {
                         res.redirect('/login');

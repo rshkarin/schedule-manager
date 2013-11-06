@@ -18,7 +18,7 @@ function addTestCourses(courses) {
 	  	});
 	}
 
-	console.log("Test courses has been added.");
+	//console.log("Test courses has been added.");
 }
 
 function printError(err) {
@@ -48,7 +48,7 @@ exports.list = function(req, res){
 	      return printError(err);
 	    }
 
-	    console.log(result);
+	    //console.log(result);
 	    res.render('courses/index', { title: 'Courses', 
 	    							user: req.user,
 		    						courses: result,
@@ -70,7 +70,7 @@ exports.update = function(req, res) {
 	req.checkBody('startDate', 'Please enter a valid start date of course').isDate();
 	req.checkBody('finishDate', 'Please enter a valid start date of course').isDate();
 
-	console.log(req.body);
+	//console.log(req.body);
 
 	var errors = req.validationErrors();
 
@@ -144,9 +144,9 @@ exports.view = function(req, res){
 				    return printError(JSON.stringify(err));
 				}
 
-				console.log(JSON.stringify(course));
-	    		console.log(JSON.stringify(found_professor));
-	    		console.log(JSON.stringify(found_students));
+				//console.log(JSON.stringify(course));
+	    		//console.log(JSON.stringify(found_professor));
+	    		//console.log(JSON.stringify(found_students));
 
 	    		
 	    		res.render('courses/view', { title: 'Courses' + course.title,
@@ -187,7 +187,7 @@ exports.edit = function(req, res){
 			}
 		}
 
-		console.log(course);
+		//console.log(course);
 
 	    res.render('courses/edit', { title: 'Courses Editing',
 	    							 user: req.user, 
