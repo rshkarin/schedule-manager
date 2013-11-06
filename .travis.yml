@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - "0.10"
+	- "0.10"
 deploy:
 provider: nodejitsu
-  user: "rshkarin2013"
-  api_key: "ba1bb375-04e5-425c-9bfb-578446c1affc"
+	user: "rshkarin2013"
+	api_key: "ba1bb375-04e5-425c-9bfb-578446c1affc"
