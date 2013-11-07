@@ -30,7 +30,8 @@
     "mongoose-unique-validator": "*",
     "mocha": "*",
     "superagent": "*",
-    "should": "*"
+    "should": "*",
+    "xmlbuilder": "*"
   },
   "name": "ScheduleManager"
 }
