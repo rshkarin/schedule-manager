@@ -175,6 +175,9 @@ exports.init = function(app, conf, passport) {
     app.post('/api/admin/add', api.admin_add);
     //app.get('/api/admin/create', api.admin_add2);
 
+    //Course external API
+    app.get('/api/courses', api.course_list);
+
     app.get('/test', function(req, res) {
       res.send(200);
     });
