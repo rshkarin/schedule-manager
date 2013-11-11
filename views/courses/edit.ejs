@@ -7,6 +7,7 @@
 
 <div class="col-lg-10 col-lg-offset-1 well">
 <form id="editCourseForm" class="form-horizontal" method="POST" action="/course/<%= course._id %>">
+    <input type="hidden" name="_method" value="PUT" />
 	<input type="hidden" name="_id" value="<%= course._id %>" />
     <div class="form-group">
         <label class="col-lg-2 control-label" for="title">Title</label>

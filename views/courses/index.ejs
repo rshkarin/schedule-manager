@@ -51,9 +51,16 @@
 							<a class="btn btn-default" href="/course/<%= course._id %>/edit">
 								<span class="glyphicon glyphicon-cog"></span> Edit
 							</a>
+							<form class="form-inline" method="POST" action="/course/<%= course._id %>/delete">
+								<input type="hidden" name="_method" value="DELETE" />
+								<input type="hidden" name="_id" value="<%= course._id %>" />
+								<input class="btn btn-danger" type="submit" value="Delete"/>
+							</form>
+							<!--
 							<a class="btn btn-danger" href="/course/<%= course._id %>/delete">
 								<span class="glyphicon glyphicon-trash"></span> Delete
 							</a>
+							-->
 						</p>
 					<% } %>
 
@@ -115,12 +122,19 @@
 					<% } %>
 				<% } else if (user && user.userGroup == 'Professor') { %>
 					<p>
-						<a class="btn btn-default" href="/course/<%= course._id %>/edit">
-							<span class="glyphicon glyphicon-cog"></span> Edit
-						</a>
-						<a class="btn btn-danger" href="/course/<%= course._id %>/delete">
-							<span class="glyphicon glyphicon-trash"></span> Delete
-						</a>
+						<div style="display:inline-block;">
+							<a class="btn btn-default" href="/course/<%= course._id %>/edit">
+								<span class="glyphicon glyphicon-cog"></span> Edit
+							</a>
+						</div>
+
+						<form style="display:inline-block;" method="POST" action="/course/<%= course._id %>/delete">
+							<input type="hidden" name="_method" value="DELETE" />
+							<input type="hidden" name="_id" value="<%= course._id %>" />
+							<button class="btn btn-danger" type="submit">
+								<span class="glyphicon glyphicon-trash"></span> Delete
+							</button>
+						</form>
 					</p>
 				<% } %>
 

@@ -76,6 +76,8 @@ exports.update = function(req, res) {
           return printError(err);
         }
 
+        delete req.body['_method'];
+
         req.checkBody('firstName', 'Please enter a valid value of first name').notEmpty();
         req.checkBody('lastName', 'Please enter a valid value of last name').notEmpty();
         req.checkBody('birthDay', 'Please choose a valid date of birthday').isDate();
@@ -227,7 +229,9 @@ exports.saveUserByUserGroup = function(req, res, userGroup){
 };
 
 exports.delete = function(req, res) {
-    User.findByIdAndRemove(eq.params.id, function(err, user) {
+    User.findByIdAndRemove(req.body._id, function(err, user) {
+        delete req.body["_method"];
+        
         if (err) {
             return printError(err);
         }

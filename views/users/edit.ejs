@@ -12,7 +12,7 @@
     <% } else if (editedUser.userGroup == 'Administrator') { %>
         <form class="form-horizontal" id="editForm" method="POST" action="/administrator/<%= editedUser._id %>">
     <% } %>
-
+        <input type="hidden" name="_method" value="PUT" />
       	<input type="hidden" name="_id" value="<%= editedUser._id %>" />
         <div class="form-group">
             <label class="col-lg-3 control-label" for="firstName">First name</label>

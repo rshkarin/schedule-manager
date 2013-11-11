@@ -167,7 +167,10 @@ describe('User API (Unauthorized user level)',function() {
 
   describe('delete course', function() {
     it('should return 403 on /course/5278cce85befa40146000002/delete', function (done) {
-      agent.get('http://' + base_host + ':' + port + '/course/5278cce85befa40146000002/delete')
+      agent.post('http://' + base_host + ':' + port + '/course/5278cce85befa40146000002/delete')
+      .send({ _id: "5278cce85befa40146000002",
+                _method: "DELETE"
+              })
       .end(function(err, res) {
         if(err) {
           done(err);

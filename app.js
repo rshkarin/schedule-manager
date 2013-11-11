@@ -132,9 +132,9 @@ exports.init = function(app, conf, passport) {
     app.post('/students', function(req, res) {
         user.saveUserByUserGroup(req, res, "Student");
     });
-    app.get('/students/delete', requireUserGroups(["Administrator"]), user.delete);
+    app.delete('/students/delete', requireUserGroups(["Administrator"]), user.delete);
     app.get('/student/:id', requireUserGroups(["Professor","Administrator"]), user.view);
-    app.post('/student/:id', requireUserGroups(["Student","Administrator"]), user.update);
+    app.put('/student/:id', requireUserGroups(["Student","Administrator"]), user.update);
     app.get('/student/:id/edit', requireUserGroups(["Student","Administrator"]), user.edit);
 
     // Professor
@@ -148,9 +148,9 @@ exports.init = function(app, conf, passport) {
         user.saveUserByUserGroup(req, res, "Professor");
     });
     app.get('/professor/:id', requireUserGroups(["Professor","Administrator"]), user.view);
-    app.post('/professor/:id', requireUserGroups(["Professor","Administrator"]), user.update);
+    app.put('/professor/:id', requireUserGroups(["Professor","Administrator"]), user.update);
     app.get('/professor/:id/edit', requireUserGroups(["Professor","Administrator"]), user.edit);
-    app.get('/professor/:id/delete', requireUserGroups(["Administrator"]), user.delete);
+    app.delete('/professor/:id/delete', requireUserGroups(["Administrator"]), user.delete);
 
     // Courses
     app.get('/', course.list);
@@ -159,9 +159,9 @@ exports.init = function(app, conf, passport) {
     app.get('/create', requireUserGroups(["Professor"]), course.create);
     app.post('/', requireUserGroups(["Professor"]), course.save);
     app.get('/course/:id', course.view);
-    app.post('/course/:id', requireUserGroups(["Professor","Administrator"]), course.update);
+    app.put('/course/:id', requireUserGroups(["Professor","Administrator"]), course.update);
     app.get('/course/:id/edit', requireUserGroups(["Professor"]), course.edit);
-    app.get('/course/:id/delete', requireUserGroups(["Professor"]), course.delete);
+    app.delete('/course/:id/delete', requireUserGroups(["Professor"]), course.delete);
     app.get('/course/:id/subscribe', requireUserGroups(["Student"]), course.subscribe);
     app.get('/course/:id/unsubscribe', requireUserGroups(["Student"]), course.unsubscribe);
 
@@ -173,14 +173,9 @@ exports.init = function(app, conf, passport) {
 
     // Admin registration
     app.post('/api/admin/add', api.admin_add);
-    //app.get('/api/admin/create', api.admin_add2);
 
     //Course external API
     app.get('/api/courses', api.course_list);
-
-    app.get('/test', function(req, res) {
-      res.send(200);
-    });
 
     return app;
 };

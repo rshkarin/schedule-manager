@@ -35,12 +35,23 @@
 								<span class="glyphicon glyphicon-cog"></span> Edit
 				        	</a>
 	            		<% } else if (current_user.userGroup == 'Professor') { %>
-		            		<a class="btn btn-xs btn-default" href="/professor/<%= current_user._id %>/edit">
-								<span class="glyphicon glyphicon-cog"></span> Edit
-				        	</a>
+	            			<div style="display:inline-block;">
+			            		<a class="btn btn-xs btn-default" href="/professor/<%= current_user._id %>/edit">
+									<span class="glyphicon glyphicon-cog"></span> Edit
+					        	</a>
+				        	</div>
+				        	<form style="display:inline-block;" method="POST" action="/professor/<%= current_user._id %>/delete">
+								<input type="hidden" name="_method" value="DELETE" />
+								<input type="hidden" name="_id" value="<%= current_user._id %>" />
+								<button class="btn btn-xs btn-danger" type="submit">
+									<span class="glyphicon glyphicon-trash"></span> Delete
+								</button>
+							</form>
+							<!--
 				        	<a class="btn btn-xs btn-danger" href="/professor/<%= current_user._id %>/delete">
 								<span class="glyphicon glyphicon-trash"></span> Delete
 				        	</a>
+				        	-->
 	            		<% } else if (current_user.userGroup == 'Administrator') { %>
 	            		<% } %>
 	            	<% } %>

@@ -59,6 +59,8 @@ exports.list = function(req, res){
 };
 
 exports.update = function(req, res) {
+	delete req.body['_method'];
+
 	if ("keyWords" in req.body) {
 		req.body["keyWords"] = req.body["keyWords"].split(";");
 		req.body["keyWords"] = req.body["keyWords"].filter(function(v) { return v!=='' });
@@ -163,7 +165,7 @@ exports.view = function(req, res){
 };
 
 exports.delete = function(req, res){
-	Course.findByIdAndRemove(req.params.id, function(err) {
+	Course.findByIdAndRemove(req.body._id, function(err) {
     	if (err) {
 	      return printError(JSON.stringify(err));
 	    }
