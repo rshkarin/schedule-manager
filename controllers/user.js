@@ -82,6 +82,7 @@ exports.update = function(req, res) {
         }
 
         delete req.body['_method'];
+        delete req.body['confirm_password'];
 
         req.checkBody('firstName', 'Please enter a valid value of first name').notEmpty();
         req.checkBody('lastName', 'Please enter a valid value of last name').notEmpty();
@@ -169,6 +170,8 @@ exports.merge = function (id, body, callback) {
 
 exports.saveUserByUserGroup = function(req, res, userGroup){
     req.body["userGroup"] = userGroup;
+
+    delete req.body['confirm_password'];
 
     req.checkBody('firstName', 'Please enter a valid value of first name.').notEmpty();
     req.checkBody('lastName', 'Please enter a valid value of last name.').notEmpty();

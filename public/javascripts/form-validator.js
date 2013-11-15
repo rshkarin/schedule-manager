@@ -11,12 +11,16 @@ $().ready(function() {
         }
     };
 
+    jQuery.validator.addMethod("isAfterStartDate", function(value, element) {
+        return isAfterStartDate($("#startDate").val(), value);
+    }, "Finish date should be more than start date");
+
 	$("#createForm").validate({
 		rules: {
 			firstName: "required",
 			lastName: "required",
             birthDay: "required",
-			email: {
+			login: {
 				required: true,
 				email: true
 			},
