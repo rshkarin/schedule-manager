@@ -33,8 +33,8 @@
         <% } %>
 
         <h4>Dates:</h4>
-        <%= renderDateWithFormat(course.startDate, "MMM Do YYYY, h:mm") %> - 
-        <%= renderDateWithFormat(course.finishDate, "MMM Do YYYY, h:mm")%>
+        <%= renderDateWithFormat(course.startDate, "MMM Do YYYY, HH:mm") %> - 
+        <%= renderDateWithFormat(course.finishDate, "MMM Do YYYY, HH:mm")%>
 
         <h4>Key words:</h4>
         <% course.keyWords.forEach(function(keyword){ %>

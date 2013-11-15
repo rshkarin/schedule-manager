@@ -1,4 +1,20 @@
 $().ready(function() {   
+    var isAfterStartDate = function(startDateStr, finishDateStr) {
+        var a = moment(startDateStr);
+        var b = moment(finishDateStr);
+
+        if(a > b) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    };
+
+    jQuery.validator.addMethod("isAfterStartDate", function(value, element) {
+        return isAfterStartDate($("#startDate").val(), value);
+    }, "Finish date should be more than start date");
+
 	$("#createForm").validate({
 		rules: {
 			firstName: "required",
@@ -73,7 +89,10 @@ $().ready(function() {
         rules: {
             title: "required",
 			startDate: "required",
-            finishDate: "required"
+            finishDate: {
+                required: true,
+                isAfterStartDate: true
+            }
 		},
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
@@ -96,7 +115,10 @@ $().ready(function() {
         rules: {
             title: "required",
     		startDate: "required",
-            finishDate: "required"
+            finishDate: {
+                required: true,
+                isAfterStartDate: true
+            }
 		},
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');

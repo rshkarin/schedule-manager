@@ -66,33 +66,33 @@ exports.update = function(req, res) {
 		req.body["keyWords"] = req.body["keyWords"].filter(function(v) { return v!=='' });
 	}
 
-	req.checkBody('title', 'Please enter a valid title of course').notEmpty();
-	req.checkBody('field', 'Please enter a valid field of course').notEmpty();
-	req.checkBody('description', 'Please enter a valid description of course').notEmpty();
-	req.checkBody('startDate', 'Please enter a valid start date of course').isDate();
-	req.checkBody('finishDate', 'Please enter a valid start date of course').isDate();
+	//req.checkBody('title', 'Please enter a valid title of course').notEmpty();
+	//req.checkBody('field', 'Please enter a valid field of course').notEmpty();
+	//req.checkBody('description', 'Please enter a valid description of course').notEmpty();
+	//req.checkBody('startDate', 'Please enter a valid start date of course').isDate();
+	//req.checkBody('finishDate', 'Please enter a valid start date of course').isDate();
 
 	//console.log(req.body);
 
-	var errors = req.validationErrors();
+	//var errors = req.validationErrors();
 
-	if (errors) {
-		req.session['course_errors'] = errors;
-	    req.session['edited_course'] = req.body;
-	    res.redirect("back");
-	}
-	else {
+	//if (errors) {
+	///	req.session['course_errors'] = errors;
+	//    req.session['edited_course'] = req.body;
+	//    res.redirect("back");
+	//}
+	//else {
 		var id = req.body._id;
 		delete req.body._id;
 		Course.findByIdAndUpdate(id, req.body, function (err, result) {
 	    	if (err) {
 			    return printError(err);
 			}
-			delete req.session['course_errors'];
-			delete req.session['edited_course'];
+			//delete req.session['course_errors'];
+			//delete req.session['edited_course'];
 			res.redirect("/");
 		});
-	}
+	//}
 };
 
 exports.updateStatus = function(req, res) {
@@ -146,10 +146,7 @@ exports.view = function(req, res){
 				    return printError(JSON.stringify(err));
 				}
 
-				//console.log(JSON.stringify(course));
-	    		//console.log(JSON.stringify(found_professor));
-	    		//console.log(JSON.stringify(found_students));
-
+				console.log(course);
 	    		
 	    		res.render('courses/view', { title: 'Courses' + course.title,
 			    							 user: req.user,
@@ -180,14 +177,15 @@ exports.edit = function(req, res){
 	      return printError(JSON.stringify(err));
 	    }
 
-	    var errors = req.session.hasOwnProperty('course_errors') ? req.session.course_errors : null,
-	    	edited_course = req.session.hasOwnProperty('edited_course') ? req.session.edited_course : course;
+	    var errors = [];
+	    //var errors = req.session.hasOwnProperty('course_errors') ? req.session.course_errors : null,
+	    //	edited_course = req.session.hasOwnProperty('edited_course') ? req.session.edited_course : course;
 
-	    if (req.session.hasOwnProperty('edited_course')) {
-		    for (var key in edited_course) {
-	    		course[key] = edited_course[key];
-			}
-		}
+	    //if (req.session.hasOwnProperty('edited_course')) {
+		//    for (var key in edited_course) {
+	    //		course[key] = edited_course[key];
+		//	}
+		//}
 
 		//console.log(course);
 

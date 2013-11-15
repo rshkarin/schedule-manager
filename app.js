@@ -64,8 +64,11 @@ exports.init = function(app, conf, passport) {
         var d = moment(date, format);
         return d.format("DD/MM/YY") + ' (' + d.format("HH:MM") + ')';
       },
+      //ddd MMM D YYYY HH:mm:ss ZZ
       renderDateWithFormat: function(date, format) {
-        var d = moment(date, ["YYYY/MM/DD HH:MM","YYYY-MM-DDThh:mm","YYYY-MM-DD","yyyy-MM-ddTHH:mm:ssZ"]);
+        var strDate = date.toISOString();
+        //console.log(strDate);
+        var d = moment(strDate);
         return d.format(format);
       },
       arrayContains: function(container, element) {
