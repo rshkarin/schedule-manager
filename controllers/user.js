@@ -29,6 +29,11 @@ function printError(err) {
 };
 
 exports.listUsersByUserGroup = function (req, res, userGroup){
+    delete req.session['created_user_errors'];
+    delete req.session['created_user'];
+    delete req.session['edited_user_errors'];
+    delete req.session['edited_user'];
+
     User.findByUserGroup(userGroup, function(err, user_arr) {
         if (err) {
           return printError(JSON.stringify(err));
@@ -126,10 +131,13 @@ exports.update = function(req, res) {
                           return printError(err);
                         }
 
-                        delete req.session['edited_professor_errors'];
-                        delete req.session['edited_professor'];
+                        delete req.session['edited_user_errors'];
+                        delete req.session['edited_user'];
 
-                        res.redirect("/professors");
+                        if (req.body.userGroup == 'Professor')
+                            res.redirect("/professors");
+                        else
+                            res.redirect("/students");
                     });  
                 });
             }

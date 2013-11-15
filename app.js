@@ -71,6 +71,10 @@ exports.init = function(app, conf, passport) {
         var d = moment(strDate);
         return d.format(format);
       },
+      renderDateStrWithFormat: function(dateStr, format) {
+        var d = moment(dateStr);
+        return d.format(format);
+      },
       arrayContains: function(container, element) {
         var flag = false;
         for (var i = 0; i < container.length; i++) {

@@ -11,10 +11,6 @@ $().ready(function() {
         }
     };
 
-    jQuery.validator.addMethod("isAfterStartDate", function(value, element) {
-        return isAfterStartDate($("#startDate").val(), value);
-    }, "Finish date should be more than start date");
-
 	$("#createForm").validate({
 		rules: {
 			firstName: "required",
@@ -24,15 +20,13 @@ $().ready(function() {
 				required: true,
 				email: true
 			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-			confirm_password: {
-				required: true,
-				minlength: 5,
-				equalTo: "#password"
-			}
+            password: {
+                required: true,
+                minlength: 5
+            },
+            confirm_password: {
+                equalTo: "#password"
+            }
 		},
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
@@ -84,7 +78,8 @@ $().ready(function() {
             }
         }
     });
-    
+
+
     $("#editCourseForm").validate({
         rules: {
             title: "required",
