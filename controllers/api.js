@@ -121,7 +121,6 @@ exports.course_list = function(req, res) {
             itemCourse.ele('title', course.title);
             itemCourse.ele('field', course.field);
             itemCourse.ele('description', course.description);
-            /*
             itemCourse.ele('startDate', course.startDate.toString());
             itemCourse.ele('finishDate', course.finishDate.toString());
             itemCourse.ele('professor', course.professor);
@@ -135,7 +134,6 @@ exports.course_list = function(req, res) {
             for (var k = 0; k < course.keyWords.length; k++) {
                 itemKeyWords.ele('keyWord', course.keyWords[k]);
             }
-            */
         }
         res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
     });
