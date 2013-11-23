@@ -108,7 +108,9 @@ exports.admin_add = function(req, res){
                     for (var k = 0; k < course.keyWords.length; k++) {
                         itemKeyWords.ele('keyWord', course.keyWords[k]);
                     }
+                    
 */
+
 exports.course_list = function(req, res) {
     Course.find({}, function(err, result) {
         var root = xmlbuilder.create('courses');
