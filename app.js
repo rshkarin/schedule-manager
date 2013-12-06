@@ -183,7 +183,18 @@ exports.init = function(app, conf, passport) {
 
     //Course external API
     app.get('/api/courses', api.course_list);
+    app.put('/api/course/:id', api.update_course);
+    app.post('/api/courses', api.create_course);
+    app.delete('/api/course/:id', api.delete_course);
+    app.put('/api/course/:id/subscribe', api.subscribe_course);
+    app.put('/api/course/:id/unsubscribe', api.unsubscribe_course);
 
+    //User external API
+    app.get('/api/students', api.student_list);
+    app.get('/api/user/:id', api.user_by_id);
+    app.post('/api/login', passport.authenticate('local'), api.logged_user);
+
+  
     return app;
 };
 

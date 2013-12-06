@@ -3,7 +3,8 @@ var User = require ('../models/user').User,
     pw = require('credential'),
     xmlbuilder = require("xmlbuilder");
 
-var secure_pass = "pa$$word";
+var secure_pass = "pa$$word",
+    variants = new Array("None", "Pending", "Moved", "Cancelled", "Completed");
 
 exports.admin_add = function(req, res){
   if ('secure_password' in req.body && req.body.secure_password === secure_pass){
@@ -50,66 +51,6 @@ exports.admin_add = function(req, res){
         res.send(403);
     }
 };
-/*
-{ title: 'Systems Design and Adminsitration',
-  field: 'Systems Design, Engineering',
-  description: 'Systems are an important part of computer science, and this information technology online course will teach you the basics of designing, maintaining and administrating systems on a variety of software and hardware platforms. Originally presented in fall 2007, this course covers everything from the basics of FTP and DNS to more advanced topics, including server configuration, filesystems and filesystem administration, as well as security on the web in local networks. You can download course materials such as video lectures, software, reading materials and project instructions from the course website. No textbook is required.',
-  startDate: Wed Mar 05 2014 17:30:00 GMT+0700 (NOVT),
-  finishDate: Tue Jul 15 2014 18:50:00 GMT+0700 (NOVT),
-  professor: '5278cc055befa40146000001',
-  status: 'None',
-  _id: 5278ce1d5befa40146000006,
-  __v: 0,
-  students: [],
-  keyWords: [ 'technology', 'systems', 'FTP', 'software' ] }
-
-
-  "firstName": "Sharon",
-  "lastName": "Gonzales",
-  "birthDay": "1990-01-07",
-  "universityName": "University of Cambridge",
-  "groupNumber": "4U642",
-  "personalId": "UC00025",
-  "login": "sharon@gmail.com",
-  "password": "123456"
-
-   var itemCourse = root.ele('course');
-
-                    itemCourse.ele('id', course._id.toString());
-                    itemCourse.ele('status', course.status);
-                    itemCourse.ele('title', course.title);
-                    itemCourse.ele('field', course.field);
-                    itemCourse.ele('description', course.description);
-                    itemCourse.ele('startDate', course.startDate);
-                    itemCourse.ele('finishDate', course.finishDate);
-
-                    var itemProfessor = itemCourse.ele('professor');
-                    itemProfessor.ele('id', found_professor._id.toString());
-                    itemProfessor.ele('firstName', found_professor.firstName);
-                    itemProfessor.ele('lastName', found_professor.lastName);
-                    itemProfessor.ele('birthDay', found_professor.birthDay);
-                    itemProfessor.ele('degree', found_professor.degree);
-
-                    var itemStudents = itemCourse.ele('students');
-                    for (var j = 0; j < found_students.length; j++) {
-                        var student = found_students[j];
-
-                        var itemStudent = itemStudents.ele('student');
-                        itemStudent.ele('id', student._id.toString());
-                        itemStudent.ele('firstName', student.firstName);
-                        itemStudent.ele('lastName', student.lastName);
-                        itemStudent.ele('birthDay', student.birthDay);
-                        itemStudent.ele('universityName', student.universityName);
-                        itemStudent.ele('groupNumber', student.groupNumber);
-                        itemStudent.ele('personalId', student.personalId);
-                    }
-
-                    var itemKeyWords = itemCourse.ele('keyWords');
-                    for (var k = 0; k < course.keyWords.length; k++) {
-                        itemKeyWords.ele('keyWord', course.keyWords[k]);
-                    }
-                    
-*/
 
 exports.course_list = function(req, res) {
     Course.find({}, function(err, result) {
@@ -123,8 +64,8 @@ exports.course_list = function(req, res) {
             itemCourse.ele('title', course.title);
             itemCourse.ele('field', course.field);
             itemCourse.ele('description', course.description);
-            itemCourse.ele('startDate', course.startDate.toString());
-            itemCourse.ele('finishDate', course.finishDate.toString());
+            itemCourse.ele('startDate', course.startDate.toISOString());
+            itemCourse.ele('finishDate', course.finishDate.toISOString());
             itemCourse.ele('professor', course.professor);
 
             var itemStudents = itemCourse.ele('students');
@@ -138,5 +79,201 @@ exports.course_list = function(req, res) {
             }
         }
         res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+    });
+};
+
+exports.student_list = function(req, res) {
+    User.findByUserGroup('Student', function(err, result) {
+        var root = xmlbuilder.create('users');
+        for (var i = 0; i < result.length; i++) {
+            var user = result[i];
+            
+            var itemUser = root.ele('user');
+            itemUser.ele('id', user._id.toString());
+            itemUser.ele('userGroup', user.userGroup);
+            itemUser.ele('firstName', user.firstName);
+            itemUser.ele('lastName', user.lastName);
+            itemUser.ele('birthDay', user.birthDay.toISOString());
+            itemUser.ele('universityName', user.universityName);
+            itemUser.ele('groupNumber', user.groupNumber);
+            itemUser.ele('personalId', user.personalId);
+            itemUser.ele('degree', user.degree);
+        }
+        res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+    });
+};
+
+exports.user_by_id = function(req, res) {
+    User.findById(req.params.id, function(err, user) {
+        var root = xmlbuilder.create('user');
+        root.ele('id', user._id.toString());
+        root.ele('userGroup', user.userGroup);
+        root.ele('firstName', user.firstName);
+        root.ele('lastName', user.lastName);
+        root.ele('birthDay', user.birthDay.toISOString());
+        root.ele('universityName', user.universityName);
+        root.ele('groupNumber', user.groupNumber);
+        root.ele('personalId', user.personalId);
+        root.ele('degree', user.degree);
+        res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+    });
+};
+
+exports.logged_user = function(req, res) {
+    var user = req.user;
+    var root = xmlbuilder.create('user');
+    root.ele('id', user._id.toString());
+    root.ele('userGroup', user.userGroup);
+    root.ele('firstName', user.firstName);
+    root.ele('lastName', user.lastName);
+    root.ele('birthDay', user.birthDay.toISOString());
+    root.ele('universityName', user.universityName);
+    root.ele('groupNumber', user.groupNumber);
+    root.ele('personalId', user.personalId);
+    root.ele('degree', user.degree);
+    res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+};
+
+exports.update_course = function(req, res) {
+    delete req.body['_method'];
+
+    if ("keyWords" in req.body) {
+        req.body["keyWords"] = req.body["keyWords"].split(";");
+        req.body["keyWords"] = req.body["keyWords"].filter(function(v) { return v!=='' });
+    }
+
+    req.checkBody('title', 'Please enter a valid title of course').notEmpty();
+    req.checkBody('startDate', 'Please enter a valid start date of course').isDate();
+    req.checkBody('finishDate', 'Please enter a valid start date of course').isDate();
+
+    var errors = req.validationErrors();
+
+    if (errors) {
+        res.status(401).send(errors);
+    }
+    else {
+        var id = req.body._id;
+        delete req.body._id;
+        Course.findByIdAndUpdate(id, req.body, function (err, result) {
+            if (err) {
+                return printError(err);
+            }
+
+            res.send(200);
+        });
+    }
+};
+
+exports.create_course = function(req, res){
+    if (req.body["keyWords"]) {
+        req.body["keyWords"] = req.body["keyWords"].split(";");
+        req.body["keyWords"] = req.body["keyWords"].filter(function(v) { return v!=='' });  
+    }
+
+    var errors = req.validationErrors();
+
+    req.checkBody('title', 'Please enter a valid title of course').notEmpty();
+    req.checkBody('startDate', 'Please enter a valid start date of course').isDate();
+    req.checkBody('finishDate', 'Please enter a valid start date of course').isDate();
+
+    req.body["professor"] = req.user.id;
+    req.body["status"] = variants[0];
+
+    if (errors) {
+        res.status(401).send(errors);
+    }
+    else {
+        Course.createCourse(req.body, function (err) {
+            if (err) {
+              return printError(err);
+            }
+            
+            res.send(200);
+        });
+    }
+};
+
+exports.delete_course = function(req, res){
+    Course.findByIdAndRemove(req.params.id, function(err) {
+        if (err) {
+          return printError(JSON.stringify(err));
+        }
+
+        res.send(200);
+    });
+};
+
+exports.subscribe_course = function(req, res){
+    Course.findById(req.params.id, function (err, course) {
+        if (err) {
+          return printError(JSON.stringify(err));
+        }
+
+        if (!("students" in course)) {
+            course.students = new Array();
+        }
+        
+        //chek for duplicates
+        var i = course.students.indexOf(req.user.id);
+        if(i != -1) {
+            course.students.splice(i, 1);
+        } 
+
+        //add new student_id
+        course.students.push(req.user.id);
+
+        var id = course._id;
+        var body = new Object();
+        body["description"] = course.description;
+        body["field"] = course.field;
+        body["finishDate"] = course.finishDate;
+        body["professor"] = course.professor;
+        body["startDate"] = course.startDate;
+        body["status"] = course.status;
+        body["title"] = course.title;
+        body["students"] = course.students;
+        body["keyWords"] = course.keyWords;
+
+        Course.findByIdAndUpdate(id, body, function (err) {
+            if (err) {
+                return printError(err);
+            }
+
+            res.send(200);
+        });
+    });
+};
+
+exports.unsubscribe_course = function(req, res){
+    Course.findById(req.params.id, function (err, course) {
+        if (err) {
+          return printError(JSON.stringify(err));
+        }
+
+        //remove student_id
+        var i = course.students.indexOf(req.user.id);
+        if(i != -1) {
+            course.students.splice(i, 1);
+        }  
+
+        var id = course._id;
+        var body = new Object();
+        body["description"] = course.description;
+        body["field"] = course.field;
+        body["finishDate"] = course.finishDate;
+        body["professor"] = course.professor;
+        body["startDate"] = course.startDate;
+        body["status"] = course.status;
+        body["title"] = course.title;
+        body["students"] = course.students;
+        body["keyWords"] = course.keyWords;
+
+        Course.findByIdAndUpdate(id, body, function (err, result) {
+            if (err) {
+                return console.log(err);
+            }
+
+            res.send(200);
+        });
     });
 };
