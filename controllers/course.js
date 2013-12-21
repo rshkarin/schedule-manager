@@ -48,7 +48,8 @@ exports.list = function(req, res){
 	      return printError(err);
 	    }
 
-	    //console.log(result);
+
+	    console.log(result);
 	    res.render('courses/index', { title: 'Courses', 
 	    							user: req.user,
 		    						courses: result,

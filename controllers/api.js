@@ -53,85 +53,40 @@ exports.admin_add = function(req, res){
 };
 
 exports.course_list = function(req, res) {
-    Course.find({}, function(err, result) {
-        var root = xmlbuilder.create('courses');
-        for (var i = 0; i < result.length; i++) {
-            var course = result[i];
-            
-            var itemCourse = root.ele('course');
-            itemCourse.ele('id', course._id.toString());
-            itemCourse.ele('status', course.status);
-            itemCourse.ele('title', course.title);
-            itemCourse.ele('field', course.field);
-            itemCourse.ele('description', course.description);
-            itemCourse.ele('startDate', course.startDate.toISOString());
-            itemCourse.ele('finishDate', course.finishDate.toISOString());
-            itemCourse.ele('professor', course.professor);
+    var view_function = '',
+        args = {};
 
-            var itemStudents = itemCourse.ele('students');
-            for (var j = 0; j < course.students.length; j++) {
-                itemStudents.ele('student', course.students[j]);
-            }
+    var queryObj = new Object();
 
-            var itemKeyWords = itemCourse.ele('keyWords');
-            for (var k = 0; k < course.keyWords.length; k++) {
-                itemKeyWords.ele('keyWord', course.keyWords[k]);
-            }
-        }
-        res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+    if (!req.user || req.user.userGroup == 'Student') {
+        queryObj["status"] = new Object();
+        queryObj["status"]["$ne"] = "None";
+    }
+    else if (req.user.userGroup == 'Professor') {
+        queryObj["professor"] = req.user.id;
+    }
+    else {
+    }
+
+    Course.findByObjQuery(queryObj, function(err, result) {
+        res.send(result);
     });
 };
 
 exports.student_list = function(req, res) {
     User.findByUserGroup('Student', function(err, result) {
-        var root = xmlbuilder.create('users');
-        for (var i = 0; i < result.length; i++) {
-            var user = result[i];
-            
-            var itemUser = root.ele('user');
-            itemUser.ele('id', user._id.toString());
-            itemUser.ele('userGroup', user.userGroup);
-            itemUser.ele('firstName', user.firstName);
-            itemUser.ele('lastName', user.lastName);
-            itemUser.ele('birthDay', user.birthDay.toISOString());
-            itemUser.ele('universityName', user.universityName);
-            itemUser.ele('groupNumber', user.groupNumber);
-            itemUser.ele('personalId', user.personalId);
-            itemUser.ele('degree', user.degree);
-        }
-        res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+        res.send(result);
     });
 };
 
 exports.user_by_id = function(req, res) {
     User.findById(req.params.id, function(err, user) {
-        var root = xmlbuilder.create('user');
-        root.ele('id', user._id.toString());
-        root.ele('userGroup', user.userGroup);
-        root.ele('firstName', user.firstName);
-        root.ele('lastName', user.lastName);
-        root.ele('birthDay', user.birthDay.toISOString());
-        root.ele('universityName', user.universityName);
-        root.ele('groupNumber', user.groupNumber);
-        root.ele('personalId', user.personalId);
-        root.ele('degree', user.degree);
-        res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+        res.send(user); 
     });
 };
 
 exports.logged_user = function(req, res) {
-    var user = req.user;
-    var root = xmlbuilder.create('user');
-    root.ele('id', user._id.toString());
-    root.ele('userGroup', user.userGroup);
-    root.ele('firstName', user.firstName);
-    root.ele('lastName', user.lastName);
-    root.ele('birthDay', user.birthDay.toISOString());
-    root.ele('universityName', user.universityName);
-    root.ele('groupNumber', user.groupNumber);
-    root.ele('personalId', user.personalId);
-    root.ele('degree', user.degree);
-    res.send(root.end({ 'pretty': true, 'indent': '  ', 'newline': '\n' })); 
+    res.send(req.user); 
 };
 
 exports.update_course = function(req, res) {
@@ -203,77 +158,22 @@ exports.delete_course = function(req, res){
     });
 };
 
-exports.subscribe_course = function(req, res){
-    Course.findById(req.params.id, function (err, course) {
+exports.subscribe_course = function(req, res) {
+    Course.update({ _id: req.params.id }, { $push: { students: req.user.id }  }, function (err) {
         if (err) {
-          return printError(JSON.stringify(err));
+            return printError(err);
         }
 
-        if (!("students" in course)) {
-            course.students = new Array();
-        }
-        
-        //chek for duplicates
-        var i = course.students.indexOf(req.user.id);
-        if(i != -1) {
-            course.students.splice(i, 1);
-        } 
-
-        //add new student_id
-        course.students.push(req.user.id);
-
-        var id = course._id;
-        var body = new Object();
-        body["description"] = course.description;
-        body["field"] = course.field;
-        body["finishDate"] = course.finishDate;
-        body["professor"] = course.professor;
-        body["startDate"] = course.startDate;
-        body["status"] = course.status;
-        body["title"] = course.title;
-        body["students"] = course.students;
-        body["keyWords"] = course.keyWords;
-
-        Course.findByIdAndUpdate(id, body, function (err) {
-            if (err) {
-                return printError(err);
-            }
-
-            res.send(200);
-        });
+        res.send(200);
     });
 };
 
 exports.unsubscribe_course = function(req, res){
-    Course.findById(req.params.id, function (err, course) {
+    Course.update({ _id: req.params.id }, { $pull: { students: req.user.id }  }, function (err) {
         if (err) {
-          return printError(JSON.stringify(err));
+            return printError(err);
         }
 
-        //remove student_id
-        var i = course.students.indexOf(req.user.id);
-        if(i != -1) {
-            course.students.splice(i, 1);
-        }  
-
-        var id = course._id;
-        var body = new Object();
-        body["description"] = course.description;
-        body["field"] = course.field;
-        body["finishDate"] = course.finishDate;
-        body["professor"] = course.professor;
-        body["startDate"] = course.startDate;
-        body["status"] = course.status;
-        body["title"] = course.title;
-        body["students"] = course.students;
-        body["keyWords"] = course.keyWords;
-
-        Course.findByIdAndUpdate(id, body, function (err, result) {
-            if (err) {
-                return console.log(err);
-            }
-
-            res.send(200);
-        });
+        res.send(200);
     });
 };
